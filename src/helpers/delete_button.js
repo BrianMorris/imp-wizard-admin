@@ -2,8 +2,9 @@ import React from 'react';
 import { Popup, Icon } from 'semantic-ui-react';
 
 export const DeleteButton = (props) => {
+  const className = props.overrideClass || 'floatButton';
   const disabled = !!props.hasChildren; 
-  const content = disabled ? 'Child questions are present' : 'Delete';
+  const content = disabled ? 'Cannot delete with chidren' : 'Delete';
   return(
     <Popup 
       className='popup' 
@@ -11,9 +12,11 @@ export const DeleteButton = (props) => {
       content={content} 
       trigger={
         <Icon 
-          onClick={(e) => props.delete(e, props.id)} 
+          onClick={(e) => {
+            e.stopPropagation(); 
+            props.delete(e, props.id);}} 
           disabled={disabled} 
-          className='deleteButton' 
+          className={className}
           name='delete' 
           color='red'
         />

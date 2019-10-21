@@ -13,7 +13,8 @@ const parseJSON = function(response) {
 
 
 export const API = {
-  URL: "https://ec2-54-67-52-72.us-west-1.compute.amazonaws.com",
+  URL: "http://localhost:8000",
+  // URL: "https://ec2-54-67-52-72.us-west-1.compute.amazonaws.com",
   AUTH: {
     setSessionToken(url) {
     // add session token
@@ -43,7 +44,25 @@ export const API = {
         },
         body: JSON.stringify({name, description, active}),
       }).then(parseJSON);
-    }
+    },
+    update: function({group_id, name, description, active}) {
+      const url = `${API.URL}/group/${group_id}`;
+      return fetch(API.AUTH.setSessionToken(url), {
+        method: "PUT", 
+        headers: {
+          "Content-Type": "application/json", 
+          "Accept":"application/json"
+        },
+        body: JSON.stringify({group_id, name, description, active})
+      }).then(parseJSON);
+    },
+    delete: function(group_id) {
+      const url = `${API.URL}/group/${group_id}`;
+      return fetch(API.AUTH.setSessionToken(url), {
+        method: "DELETE", 
+        headers: { "Content-Type": "application/json"}
+      }).then(parseJSON);
+    },
   },
   Question: {
     get: function({question_id, filter, group_id}) {
@@ -146,7 +165,7 @@ export const API = {
         })
       }).then(parseJSON);
     },
-    update: function(importtype_id, {name, description, active}) {
+    update: function({importtype_id, name, description, active}) {
       const url = `${API.URL}/importtype/${importtype_id}`;
       return fetch(API.AUTH.setSessionToken(url), {
         method: "PUT", 
@@ -159,6 +178,13 @@ export const API = {
           description,
           active
         })
+      }).then(parseJSON);
+    },
+    delete: function(importtype_id) {
+      const url = `${API.URL}/importtype/${importtype_id}`;
+      return fetch(API.AUTH.setSessionToken(url), {
+        method: "DELETE", 
+        headers: { "Content-Type": "application/json"}
       }).then(parseJSON);
     },
   },
@@ -202,7 +228,30 @@ export const API = {
     get: function(importtype_id) {
       const url = `${API.URL}/importfield`;
       return fetch(API.AUTH.setSessionToken(url) + `&importtype_id=${importtype_id}`).then(parseJSON);
-    }
+    },
+    update: function({importfield_id, name, description, active}) {
+      const url = `${API.URL}/importfield/${importfield_id}`;
+      return fetch(API.AUTH.setSessionToken(url), {
+        method: "PUT", 
+        headers: {
+          "Content-Type": "application/json",
+          "Accept":"application/json"
+        },
+        body: JSON.stringify({
+          importfield_id,
+          name,
+          description,
+          active
+        })
+      }).then(parseJSON);
+    },
+    delete: function(importfield_id) {
+      const url = `${API.URL}/importfield/${importfield_id}`;
+      return fetch(API.AUTH.setSessionToken(url), {
+        method: "DELETE", 
+        headers: { "Content-Type": "application/json"}
+      }).then(parseJSON);
+    },
   },
   Answer: {
     get: function(answer_id) {

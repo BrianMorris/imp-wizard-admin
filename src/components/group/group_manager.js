@@ -2,15 +2,17 @@ import React from "react";
 import { List, Segment, Header } from 'semantic-ui-react';
 import { API } from "../../service/api";
 import { errorHandler } from '../../service/errorHandler';
-import GroupForm from './group_form';
+import { GroupCreateForm } from './group_create_form';
+import { GroupUpdateForm } from './group_update_form';
+import { DeleteButton } from "../../helpers/delete_button";
+import { UpdateButton } from "../../helpers/update_button";
 
 export class GroupManager extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name:'',
-      description: '',
-      groups: []
+      groups: [],
+      update_group_id: null,
     }
   }
 
@@ -19,62 +21,58 @@ export class GroupManager extends React.Component {
   }
 
   getGroups = () => {
-    API.Group.get().then(
-      result => {
-        this.setState({
-          groups: result
-        })
-      },
-      error => {
-        errorHandler(error);
-      }
-    ) 
+    API.Group.get()
+      .then(
+        result => this.setState({ groups: result }),
+        error => errorHandler(error)
+      ); 
   }
 
-  onSubmit = () => {
-    const {name, description} = this.state;
-    API.Group.create({
-       name, description
-    }).then(
-      result => {
-        this.resetForms();
-        this.getGroups();
-      },
-      error => {
-        errorHandler(error);
-      }
-    )
+  delete = (e, group_id) => {
+    e.stopPropagation();
+    API.Group.delete(group_id)
+      .then(
+        result => this.getGroups(),
+        error => errorHandler(error)
+      );
   }
 
-  onChange = (e) => {
-    const {name, value} = e.target;
+  showUpdateForm = (e, update_group_id) => {
+    this.setState({ update_group_id })
+  }
+
+  onUpdate = () => {
+    // finished updating
     this.setState({
-      [name]: value,
+      update_group_id: null
     })
+    this.getGroups();
   }
 
+  onCreate = () => {
+    this.getGroups();
+  }
   
-  resetForms() {
-    this.setState({
-      name:'',
-      description:''
-    });
-  }
-
   render() {
-    const groupForm = (
-      <GroupForm 
-        onSubmit={this.onSubmit}
-        onChange={this.onChange}
-        name={this.state.name}
-        description={this.state.description}
+    const groupCreateForm = (
+      <GroupCreateForm 
+        onCreate={this.onCreate}
       />
     );
     const groups = this.state.groups.map((group) => {
+      if(group.id === this.state.update_group_id) {
+        return (
+          <GroupUpdateForm 
+            key={group.id}
+            onUpdate={this.onUpdate}
+            group={group}
+          />
+        );
+      }
       return (
        <List.Item key={group.id} id={group.id} onClick={this.expandImporttype}>
           <List.Content>
-            <List.Header>{group.name}</List.Header>
+            <List.Header>{group.name}  <DeleteButton id={group.id} hasChildren={false} delete={this.delete} /> <UpdateButton id={group.id} hasChildren={false} update={this.showUpdateForm} /></List.Header>
           </List.Content>
           <List.Description>
             {group.description}
@@ -88,7 +86,7 @@ export class GroupManager extends React.Component {
         <Header textAlign='center'> 
           Manage Groups
         </Header>
-        {groupForm}
+        {groupCreateForm}
         <List divided relaxed>
           {groups}
         </List>
