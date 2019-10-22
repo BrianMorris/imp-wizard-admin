@@ -22,19 +22,19 @@ export class GroupManager extends React.Component {
 
   getGroups = () => {
     API.Group.get()
-      .then(
-        result => this.setState({ groups: result }),
-        error => errorHandler(error)
-      ); 
+    .then(
+      result => this.setState({ groups: result }),
+      error => errorHandler(error)
+    ); 
   }
 
   delete = (e, group_id) => {
     e.stopPropagation();
     API.Group.delete(group_id)
-      .then(
-        result => this.getGroups(),
-        error => errorHandler(error)
-      );
+    .then(
+      result => this.getGroups(),
+      error => errorHandler(error)
+    );
   }
 
   showUpdateForm = (e, update_group_id) => {

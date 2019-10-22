@@ -22,7 +22,8 @@ class ImporttypeDropdown extends React.Component {
   }
 
   componentDidMount() {
-    API.Importtype.get(API.Status.ACTIVE).then(
+    API.Importtype.get(API.Status.ACTIVE)
+    .then(
       result => {
           let importDropdownOptions = result.map((field, index) => {
             field.text = field.name;
@@ -32,13 +33,9 @@ class ImporttypeDropdown extends React.Component {
             return field;
         });
         
-        this.setState({
-          importDropdownOptions: importDropdownOptions
-        });
+        this.setState({importDropdownOptions});
       },
-      error => {
-        errorHandler(error);
-      }
+      error => errorHandler(error)
     );
   }
 

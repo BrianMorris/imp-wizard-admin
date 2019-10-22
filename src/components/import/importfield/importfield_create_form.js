@@ -12,10 +12,10 @@ export const ImportfieldCreateForm = (props) => {
   const handleSubmit = () => {
     const importtype_id = props.importtype_id;
     API.Importfield.create({importtype_id, name, description})
-      .then(
-        result => props.onCreate(importtype_id),
-        error => errorHandler(error)
-      );
+    .then(
+      result => props.onCreate(importtype_id),
+      error => errorHandler(error)
+    );
 
     setName('');
     setDescription('');

@@ -13,10 +13,10 @@ export const ImportfieldUpdateForm = (props) => {
     const importfield_id = props.importfield.id;
     const importtype_id = props.importfield.importtype_id;
     API.Importfield.update({importfield_id, name, description})
-      .then(
-        result => props.onUpdate(importtype_id),
-        error => errorHandler(error)
-      );
+    .then(
+      result => props.onUpdate(importtype_id),
+      error => errorHandler(error)
+    );
 
     setName('');
     setDescription('');

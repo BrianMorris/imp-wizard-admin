@@ -29,13 +29,10 @@ export class AnswerUpdateForm extends React.Component{
       name: this.state.answer,
       description: this.state.description,
       sort_order: this.state.sort_order,
-    }).then(
-      result => {
-        this.props.reset();
-      },
-      error => {
-        errorHandler(error);
-      }
+    })
+    .then(
+      result => this.props.reset(),
+      error => errorHandler(error)
     )
   }
 

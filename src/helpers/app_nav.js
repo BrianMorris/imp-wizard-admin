@@ -75,7 +75,7 @@ class AppNav extends React.Component {
           position="right"
           onClick={this.handleLogin}
         >
-          {this.props.logged_in ? 'logout' : 'login'} 
+          {this.props.logged_in ? 'Logout' : 'Login'} 
         </Menu.Item>
 
       </Menu>

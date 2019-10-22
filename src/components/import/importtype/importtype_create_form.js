@@ -11,10 +11,10 @@ export const ImporttypeCreateForm = (props) => {
   const handleDescriptionChange = (e) => setDescription(e.target.value);
   const handleSubmit = () => {
     API.Importtype.create({name, description})
-      .then(
-        result => props.onCreate(),
-        error => errorHandler(error)
-      );
+    .then(
+      result => props.onCreate(),
+      error => errorHandler(error)
+    );
 
     setName('');
     setDescription('');

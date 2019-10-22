@@ -13,13 +13,10 @@ export class AnswerSegments extends React.Component {
 
   deleteAnswer = (e, answer_id) => {
     e.stopPropagation();
-    API.Answer.delete(answer_id).then(
-      result => {
-        this.props.reset();
-      },
-      error => {
-        errorHandler(error);
-      }
+    API.Answer.delete(answer_id)
+    .then(
+      result => this.props.reset(),
+      error => errorHandler(error)
     );
   }
 

@@ -37,16 +37,15 @@ class ParentChildLinkForm extends React.Component {
 
   componentDidMount() {
     if(this.props.question && this.props.question.parent_answer_id) {
-      API.Answer.get(this.props.question.parent_answer_id).then(
+      API.Answer.get(this.props.question.parent_answer_id)
+      .then(
         result => {
           this.setState({
             activeQuestion: result.question_id,
             activeAnswer: result.id
           });
         },
-        error => {
-          errorHandler(error);
-        }
+        error => errorHandler(error)
       );
       // lookup seed the dropdown
     }

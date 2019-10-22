@@ -12,10 +12,10 @@ export const ImporttypeUpdateForm = (props) => {
   const handleSubmit = () => {
     const importtype_id = props.importtype.id;
     API.Importtype.update({importtype_id, name, description})
-      .then(
-        result => props.onUpdate(),
-        error => errorHandler(error)
-      );
+    .then(
+      result => props.onUpdate(),
+      error => errorHandler(error)
+    );
 
     setName('');
     setDescription('');

@@ -41,28 +41,24 @@ class QuestionUpdateForm extends React.Component {
   }
 
   getGroups() {
-    API.Group.get().then(
-      result => {
-        this.mapGroupOptions(result);
-      },
-      error => {
-        errorHandler(error);
-      }
+    API.Group.get()
+    .then(
+      result => this.mapGroupOptions(result),
+      error => errorHandler(error)
     )
   }
 
   seedEligibleParentQuestions() {
     const group_id = this.props.question.group_id;
-    API.Question.get({group_id}).then(
+    API.Question.get({group_id})
+    .then(
       result => {
         const eligibleQuestions = result.filter((question) => question.id !== this.props.question.id);
         this.setState({
           eligibleParentQuestions: eligibleQuestions 
         })
       },
-      error => {
-        errorHandler(error);
-      }
+      error => errorHandler(error)
     );
   }
 
@@ -94,13 +90,10 @@ class QuestionUpdateForm extends React.Component {
       parent_answer_id: this.state.parent_answer_id,
       description: this.state.description,
       sort_order: this.state.sort_order
-    }).then(
-      result => {
-        this.props.reset();
-      },
-      error => {
-        errorHandler(error);
-      }
+    })
+    .then(
+      result => this.props.reset(),
+      error => errorHandler(error)
     )
  }
   

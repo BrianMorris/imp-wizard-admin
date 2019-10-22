@@ -16,7 +16,8 @@ class ImportfieldLinkForm extends React.Component {
   }
 
   componentDidMount() {
-    API.Importtype.get(API.Status.ACTIVE).then(
+    API.Importtype.get(API.Status.ACTIVE)
+    .then(
       result => {
           // TODO: make the importtype field default value link to a grouop by adding a group column
           let importtypeDropdownOptions = result.map((field, index) => {
@@ -31,9 +32,7 @@ class ImportfieldLinkForm extends React.Component {
           importtypeDropdownOptions: importtypeDropdownOptions
         });
       },
-      error => {
-        errorHandler(error);
-      }
+      error => errorHandler(error)
     );
   }
 
@@ -46,7 +45,8 @@ class ImportfieldLinkForm extends React.Component {
   }
 
   populateImportfieldDropdown = (importtype_id) => {
-    API.Importfield.get(importtype_id).then(
+    API.Importfield.get(importtype_id)
+    .then(
       result => {
         const importtypeDropdownOptions = result.map((field) => {
           field.text = field.name;
@@ -59,9 +59,7 @@ class ImportfieldLinkForm extends React.Component {
           importfieldDropdownOptions: importtypeDropdownOptions
         });
       },
-      error => {
-        errorHandler(error);
-      }
+      error => errorHandler(error)
     )
   }
 

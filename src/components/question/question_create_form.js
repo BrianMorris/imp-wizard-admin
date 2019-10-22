@@ -45,14 +45,11 @@ class QuestionCreateForm extends React.Component {
   }
   
   getGroups() {
-    API.Group.get().then(
-      result => {
-        this.mapGroupOptions(result);
-      },
-      error => {
-        errorHandler(error);
-      }
-    )
+    API.Group.get()
+    .then(
+      result => this.mapGroupOptions(result),
+      error => errorHandler(error)
+    );
  
   }
 
@@ -77,13 +74,10 @@ class QuestionCreateForm extends React.Component {
       description: this.state.description,
       parent_answer_id: this.state.parent_answer_id,
       sort_order: this.state.sort_order
-    }).then(
-      result => {
-        this.props.reset();
-      },
-      error => {
-        errorHandler(error);
-      }
+    })
+    .then(
+      result => this.props.reset(),
+      error => errorHandler(error)
     )
  }
 

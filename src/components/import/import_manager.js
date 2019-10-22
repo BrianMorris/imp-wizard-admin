@@ -52,19 +52,19 @@ export class ImportManager extends React.Component {
 
   getImporttypes() {
     API.Importtype.get()
-      .then(
-        result => {
-            let importDropdownOptions = result.map((field, index) => {
-              field.text = field.name;
-              field.key = field.id;
-              field.value = field.id
-              return field;
-            });
-            
-            this.setState({importtypes: importDropdownOptions});
-        },
-        error => errorHandler(error)
-      );
+    .then(
+      result => {
+          let importDropdownOptions = result.map((field, index) => {
+            field.text = field.name;
+            field.key = field.id;
+            field.value = field.id
+            return field;
+          });
+          
+          this.setState({importtypes: importDropdownOptions});
+      },
+      error => errorHandler(error)
+    );
   }
       
   expandImporttype = (e, data) => {
@@ -78,28 +78,25 @@ export class ImportManager extends React.Component {
   }
 
   getImporttypeImportfields(importtype_id) {
-    API.Importfield.get(importtype_id).then(
+    API.Importfield.get(importtype_id)
+    .then(
       result => {
         this.setState({
           importfields: result,
           activeImporttype_id: importtype_id,
         })
       },
-      error => {
-        errorHandler(error);
-      }
-    )
+      error => errorHandler(error)
+    );
   }
   
-  handleCheckboxToggle(importtype_id, active) {
-    API.Importtype.update(importtype_id, {active: !active}).then(
-      result => {
-        this.getImporttypes();
-      },
-      error => {
-        errorHandler(error);
-      }
-    )
+  handleCheckboxToggle(importtype_id, current_active) {
+    const active = !current_active;
+    API.Importtype.update({importtype_id, active})
+    .then( 
+      result => this.getImporttypes(),
+      error => errorHandler(error)
+    );
   }
 
   showImporttypeUpdateForm = (e, importtype_id) => {
@@ -130,19 +127,19 @@ export class ImportManager extends React.Component {
 
   deleteImportfield = (e, importfield_id) => {
      API.Importfield.delete(importfield_id)
-      .then(
-        result => this.getImporttypeImportfields(this.state.activeImporttype_id),
-        error => errorHandler(error)
-      );
+    .then(
+      result => this.getImporttypeImportfields(this.state.activeImporttype_id),
+      error => errorHandler(error)
+    );
 
   }
   
   deleteImporttype = (e, importtype_id) => {
     API.Importtype.delete(importtype_id)
-      .then(
-        result => this.getImporttypes(),
-        error => errorHandler(error)
-      );
+    .then(
+      result => this.getImporttypes(),
+      error => errorHandler(error)
+    );
   }
 
   render() {

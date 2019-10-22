@@ -12,10 +12,10 @@ export const GroupUpdateForm = (props) => {
   const handleSubmit = () => {
     const group_id = props.group.id;
     API.Group.update({group_id, name, description})
-      .then(
-        result => props.onUpdate(),
-        error => errorHandler(error)
-      );
+    .then(
+      result => props.onUpdate(),
+      error => errorHandler(error)
+    );
     
     setName('');
     setDescription('');

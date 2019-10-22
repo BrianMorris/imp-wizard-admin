@@ -41,14 +41,11 @@ export class AnswerCreateForm extends React.Component{
       name: this.state.answer,
       description: this.state.description,
       sort_order: this.state.sort_order,
-    }).then(
-      result => {
-        this.reset();
-      },
-      error => {
-        errorHandler(error);
-      }
-    )
+    })
+    .then( 
+      result => this.reset(),
+      error => errorHandler(error) 
+    );
   }
 
   render() {

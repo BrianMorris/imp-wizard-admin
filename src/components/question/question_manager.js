@@ -34,7 +34,8 @@ export class QuestionManager extends React.Component {
   }
   
   renderQuestionDetails(question_id) {
-    API.Question.getDetail(question_id).then(
+    API.Question.getDetail(question_id)
+    .then(
       result => {
         this.setState({
           isLoaded: true,
@@ -43,11 +44,11 @@ export class QuestionManager extends React.Component {
         });
       },
       error => {
-        this.setState({
-          isLoaded: true
-        });
+        this.setState({isLoaded: true});
         errorHandler(error);
-      }); }
+      }
+    ); 
+  }
   
   changeFocus(item_constant, item_id) {
     // added extra field to correctly show multiple answer and importfield detail
@@ -61,26 +62,19 @@ export class QuestionManager extends React.Component {
   }
 
   handleImportfieldUnlink(answer_id, importfield_id, answerIndex) {
-    API.Importfield.unlink(answer_id, importfield_id).then(
-      result => {
-        // rerender my answer import fields using state. 
-        this.renderAnswerImportfields(importfield_id, answerIndex);
-      },
-      error => {
-        errorHandler(error);
-      }
+    API.Importfield.unlink(answer_id, importfield_id)
+    .then(
+      result => this.renderAnswerImportfields(importfield_id, answerIndex),
+      error => errorHandler(error)
     );
   }
 
   handleImportfieldLink = (answer_id, importfield_id) => {
     // post field and rerender
-    API.Importfield.link(answer_id, importfield_id).then(
-      result => {
-        this.renderQuestionDetails(this.props.id);
-      },
-      error => {
-        errorHandler(error);
-      }
+    API.Importfield.link(answer_id, importfield_id)
+    .then(
+      result => this.renderQuestionDetails(this.props.id),
+      error => errorHandler(error)
     )
   }
 
